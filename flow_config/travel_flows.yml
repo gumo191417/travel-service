@@ -1,0 +1,686 @@
+slots:
+  # ---------- 产品搜索：用户输入 ----------
+  product_type:
+    type: text
+    label: 产品类型
+    description: 要搜索的产品类型，取值 hotel、scenic、flight、train、bus、transfer
+
+  city:
+    type: text
+    label: 城市
+    description: 用户口述的城市名称，如“三亚”“上海”，由动作转换为 areaId
+
+  departure_city:
+    type: text
+    label: 出发城市
+    description: 机票、火车票、汽车票搜索的出发城市名称
+
+  arrival_city:
+    type: text
+    label: 到达城市
+    description: 机票、火车票、汽车票搜索的到达城市名称
+
+  check_in_date:
+    type: date
+    label: 入住日期
+    description: 酒店搜索的入住日期，格式 YYYY-MM-DD
+
+  check_out_date:
+    type: date
+    label: 离店日期
+    description: 酒店搜索的离店日期，格式 YYYY-MM-DD
+
+  travel_date:
+    type: date
+    label: 出行日期
+    description: 景区游玩日期或接送服务日期，格式 YYYY-MM-DD
+
+  departure_date:
+    type: date
+    label: 出发日期
+    description: 机票、火车票、汽车票的出发日期，格式 YYYY-MM-DD
+
+  star_rating:
+    type: text
+    label: 酒店星级
+    description: 酒店星级筛选，取值 3、4、5
+
+  hotel_type:
+    type: text
+    label: 酒店类型
+    description: 酒店类型筛选，取值 luxury、business、resort、boutique
+
+  scenic_rating:
+    type: text
+    label: 景点等级
+    description: 景点等级筛选，取值 5A、4A、3A
+
+  scenic_type:
+    type: text
+    label: 景点类型
+    description: 景点类型筛选，如 theme_park、museum、mountain、heritage
+
+  cabin_class:
+    type: text
+    label: 舱位等级
+    description: 机票舱位筛选，取值 economy、business
+
+  seat_class:
+    type: text
+    label: 席位等级
+    description: 火车票席位筛选，取值 second_class、first_class、business
+
+  train_no:
+    type: text
+    label: 车次号
+    description: 火车票车次号关键字，如 G102
+
+  route_name:
+    type: text
+    label: 班线名称
+    description: 汽车票班线名称关键字
+
+  service_type:
+    type: text
+    label: 接送服务类型
+    description: 取值 airport_pickup、airport_dropoff、charter_daily、station_transfer
+
+  vehicle_type:
+    type: text
+    label: 接送车型
+    description: 取值 economy、comfort、business、van
+
+  keyword:
+    type: text
+    label: 关键字
+    description: 酒店、景点名称关键字
+
+  # ---------- 产品搜索：动作写回 ----------
+  city_area_id:
+    type: int
+    label: 城市地区ID
+    description: 城市名称换算得到的 areas.id，供搜索接口使用
+
+  departure_area_id:
+    type: int
+    label: 出发城市地区ID
+    description: 出发城市名称换算得到的 areas.id
+
+  arrival_area_id:
+    type: int
+    label: 到达城市地区ID
+    description: 到达城市名称换算得到的 areas.id
+
+  search_results:
+    type: json
+    label: 搜索结果
+    description: 归一化结果列表，每项包含 type、id、title、subtitle、attributes
+
+  search_result_summary:
+    type: text
+    label: 搜索结果摘要
+    description: 供回复模板使用的可读文本，动作负责生成
+
+  search_found:
+    type: bool
+    label: 是否搜索到结果
+    description: 搜索动作写回，false 时流程走“未找到”分支
+
+  # ---------- 订单 ----------
+  order_no:
+    type: text
+    label: 订单号
+    description: 用户订单号，如 TR_DEMO_0001
+    object_type: order
+    object_field: id
+
+  order_id:
+    type: int
+    label: 订单ID
+    description: 由订单号解析出的数字订单ID，供订单与退款接口使用
+
+  order_status:
+    type: text
+    label: 订单状态
+    description: 订单状态的中文描述，动作写回
+
+  order_summary:
+    type: text
+    label: 订单摘要
+    description: 订单状态、类型、金额、支付信息的可读摘要
+
+  order_items:
+    type: json
+    label: 订单明细
+    description: 订单详情接口返回的 items 列表，供行程摘要和退款流程使用
+
+  order_item_count:
+    type: int
+    label: 订单明细数量
+    description: 订单详情中的明细条数，由订单查询动作写回，用于判断是否需要追问退哪一项
+
+  order_found:
+    type: bool
+    label: 订单是否找到
+    description: 订单查询动作写回，false 时流程走“未找到”分支
+
+  travel_summary:
+    type: text
+    label: 行程摘要
+    description: 由订单明细组装的行程信息，包含产品名称、开始与结束时间
+
+  # ---------- 退款 ----------
+  refund_reason:
+    type: text
+    label: 退款原因
+    description: 用户申请退款的原因
+
+  refund_type:
+    type: text
+    label: 退款类型
+    description: 用户选择的退款类型，接口无对应字段，仅用于确认话术
+
+  refund_item_hint:
+    type: text
+    label: 退款明细描述
+    description: 多明细订单中用户描述的待退款产品名称
+
+  order_item_id:
+    type: int
+    label: 订单明细ID
+    description: 由退款明细描述匹配出的订单明细ID
+
+  order_item_name:
+    type: text
+    label: 退款明细名称
+    description: 待退款订单明细的产品名称，用于确认话术
+
+  refund_amount:
+    type: number
+    label: 退款金额
+    description: 本次申请的退款金额，缺省取明细 saleAmount
+
+  refund_no:
+    type: text
+    label: 退款申请单号
+    description: 退款申请创建成功后接口返回的单号
+
+  refund_status:
+    type: text
+    label: 退款申请状态
+    description: 退款申请当前状态，如 pending、approved、success
+
+  refund_result:
+    type: text
+    label: 退款结果
+    description: 退款提交结果的可读文本
+
+  refund_success:
+    type: bool
+    label: 退款是否成功
+    description: 退款动作写回，false 时流程走失败提示分支
+
+  # ---------- 转人工 ----------
+  handoff_reason:
+    type: text
+    label: 转人工原因
+    description: 用户请求转人工的原因，缺省为“用户请求转人工客服”
+
+  handoff_no:
+    type: text
+    label: 转人工单号
+    description: 转人工成功后返回的工单号
+
+  handoff_message:
+    type: text
+    label: 转人工提示
+    description: 面向用户的转人工结果话术
+
+  handoff_success:
+    type: bool
+    label: 转人工是否成功
+    description: 转人工动作写回，false 时走失败提示
+
+flows:
+  onboarding:
+    name: 欢迎引导
+    description: 在聊天窗口首次打开时欢迎用户，并介绍可办理的旅游服务。通常由系统主动触发。
+    steps:
+      - id: start
+        type: start
+        next: respond
+
+      - id: respond
+        type: response
+        template:
+          text: "你好，这里是旅游客服助手。我可以帮你查酒店、景点、机票、火车票、汽车票和接送服务，也能查订单状态、行程信息，或者提交退款申请。"
+        next: end
+
+      - id: end
+        type: end
+        next: []
+
+  product_search:
+    name: 产品搜索
+    description: 按产品类型、城市和日期搜索酒店、景点、机票、火车票、汽车票或接送服务，用户不需要先选中某个产品。
+    steps:
+      - id: start
+        type: start
+        next:
+          - if: "slots.get('product_type') == 'hotel'"
+            then: hotel_city
+          - if: "slots.get('product_type') == 'scenic'"
+            then: scenic_city
+          - if: "slots.get('product_type') in ('flight', 'train', 'bus')"
+            then: transport_departure_city
+          - if: "slots.get('product_type') == 'transfer'"
+            then: transfer_city
+          - else: ask_product_type
+
+      - id: ask_product_type
+        type: collect
+        slot_name: product_type
+        template:
+          text: "你想查哪一类产品？酒店、景点、机票、火车票、汽车票，还是接送服务？"
+        validation:
+          condition: "slots.get('product_type') in ('hotel', 'scenic', 'flight', 'train', 'bus', 'transfer')"
+          failure_template:
+            text: "请从酒店、景点、机票、火车票、汽车票、接送服务里选一个。"
+        next: start
+
+      # ---------- 酒店 ----------
+      - id: hotel_city
+        type: collect
+        slot_name: city
+        template:
+          text: "你想住哪个城市？"
+        validation:
+          condition: "slots.get('city')"
+          failure_template:
+            text: "请告诉我城市名称。"
+        next: hotel_check_in
+
+      - id: hotel_check_in
+        type: collect
+        slot_name: check_in_date
+        template:
+          text: "什么时候入住？请用 YYYY-MM-DD 格式，例如 2025-05-01。"
+        validation:
+          condition: "slots.get('check_in_date')"
+          failure_template:
+            text: "请提供入住日期，格式 YYYY-MM-DD。"
+        next: hotel_check_out
+
+      - id: hotel_check_out
+        type: collect
+        slot_name: check_out_date
+        template:
+          text: "哪天离店？"
+        validation:
+          condition: "slots.get('check_out_date')"
+          failure_template:
+            text: "请提供离店日期，格式 YYYY-MM-DD。"
+        next: hotel_search
+
+      - id: hotel_search
+        type: action
+        action: action_search_hotels
+        next: show_results
+
+      # ---------- 景点 ----------
+      - id: scenic_city
+        type: collect
+        slot_name: city
+        template:
+          text: "想去的景点在哪个城市？"
+        validation:
+          condition: "slots.get('city')"
+          failure_template:
+            text: "请告诉我城市名称。"
+        next: scenic_date
+
+      - id: scenic_date
+        type: collect
+        slot_name: travel_date
+        template:
+          text: "计划哪一天去玩？请用 YYYY-MM-DD 格式。"
+        validation:
+          condition: "slots.get('travel_date')"
+          failure_template:
+            text: "请提供游玩日期，格式 YYYY-MM-DD。"
+        next: scenic_search
+
+      - id: scenic_search
+        type: action
+        action: action_search_scenics
+        next: show_results
+
+      # ---------- 交通 ----------
+      - id: transport_departure_city
+        type: collect
+        slot_name: departure_city
+        template:
+          text: "从哪个城市出发？"
+        validation:
+          condition: "slots.get('departure_city')"
+          failure_template:
+            text: "请告诉我出发城市。"
+        next: transport_arrival_city
+
+      - id: transport_arrival_city
+        type: collect
+        slot_name: arrival_city
+        template:
+          text: "到哪个城市？"
+        validation:
+          condition: "slots.get('arrival_city')"
+          failure_template:
+            text: "请告诉我到达城市。"
+        next: transport_departure_date
+
+      - id: transport_departure_date
+        type: collect
+        slot_name: departure_date
+        template:
+          text: "哪天出发？请用 YYYY-MM-DD 格式。"
+        validation:
+          condition: "slots.get('departure_date')"
+          failure_template:
+            text: "请提供出发日期，格式 YYYY-MM-DD。"
+        next:
+          - if: "slots.get('product_type') == 'flight'"
+            then: flight_search
+          - if: "slots.get('product_type') == 'train'"
+            then: train_search
+          - else: bus_search
+
+      - id: flight_search
+        type: action
+        action: action_search_flights
+        next: show_results
+
+      - id: train_search
+        type: action
+        action: action_search_trains
+        next: show_results
+
+      - id: bus_search
+        type: action
+        action: action_search_buses
+        next: show_results
+
+      # ---------- 接送 ----------
+      - id: transfer_city
+        type: collect
+        slot_name: city
+        template:
+          text: "接送服务在哪个城市？"
+        validation:
+          condition: "slots.get('city')"
+          failure_template:
+            text: "请告诉我城市名称。"
+        next: transfer_date
+
+      - id: transfer_date
+        type: collect
+        slot_name: travel_date
+        template:
+          text: "哪天用车？请用 YYYY-MM-DD 格式。"
+        validation:
+          condition: "slots.get('travel_date')"
+          failure_template:
+            text: "请提供用车日期，格式 YYYY-MM-DD。"
+        next: transfer_search
+
+      - id: transfer_search
+        type: action
+        action: action_search_transfers
+        next: show_results
+
+      - id: show_results
+        type: response
+        template:
+          mode: static
+          text: "{{ slots.search_result_summary }}"
+        next: end
+
+      - id: end
+        type: end
+        next: []
+
+  order_status_query:
+    name: 订单状态查询
+    description: 按订单号查询订单状态、金额和支付信息。
+    steps:
+      - id: start
+        type: start
+        next: ask_order_number
+
+      - id: ask_order_number
+        type: collect
+        slot_name: order_no
+        template:
+          text: "请告诉我订单号，例如 TR_DEMO_0001。"
+        validation:
+          condition: "slots.get('order_no')"
+          failure_template:
+            text: "订单号不能为空，请重新输入。"
+        next: lookup_order
+
+      - id: lookup_order
+        type: action
+        action: action_lookup_order
+        next:
+          - if: "slots.get('order_found')"
+            then: show_order_status
+          - else: show_order_error
+
+      - id: show_order_status
+        type: response
+        template:
+          mode: rephrase
+          text: "{{ slots.order_summary }}"
+          prompt: |
+            请结合对话历史和用户当前消息，对下面的基础回复做自然改写。
+            要求：订单号、状态、金额、时间等事实必须与基础回复完全一致；不要新增信息；只输出改写后的回复。
+
+            对话历史：{{ history }}
+            用户当前消息：{{ user_message }}
+            基础回复：{{ current_response }}
+        next: end
+
+      - id: show_order_error
+        type: response
+        template:
+          text: "{{ slots.order_summary }}"
+        next: end
+
+      - id: end
+        type: end
+        next: []
+
+  travel_info_query:
+    name: 出行信息查询
+    description: 按订单号查询行程日期、产品和订单明细。
+    steps:
+      - id: start
+        type: start
+        next: ask_order_number
+
+      - id: ask_order_number
+        type: collect
+        slot_name: order_no
+        template:
+          text: "请告诉我订单号，例如 TR_DEMO_0001。"
+        validation:
+          condition: "slots.get('order_no')"
+          failure_template:
+            text: "订单号不能为空，请重新输入。"
+        next: lookup_order
+
+      - id: lookup_order
+        type: action
+        action: action_lookup_order
+        next:
+          - if: "slots.get('order_found')"
+            then: show_travel_info
+          - else: show_order_error
+
+      - id: show_travel_info
+        type: response
+        template:
+          mode: rephrase
+          text: "{{ slots.travel_summary }}"
+          prompt: |
+            请结合对话历史和用户当前消息，对下面的行程信息做自然改写。
+            要求：产品名称、日期、时间必须与基础回复完全一致；不要新增信息；只输出改写后的回复。
+
+            对话历史：{{ history }}
+            用户当前消息：{{ user_message }}
+            基础回复：{{ current_response }}
+        next: end
+
+      - id: show_order_error
+        type: response
+        template:
+          text: "{{ slots.order_summary }}"
+        next: end
+
+      - id: end
+        type: end
+        next: []
+
+  refund_request:
+    name: 退款申请
+    description: 收集订单号、退款明细、原因和类型，提交退款申请并返回处理结果。
+    steps:
+      - id: start
+        type: start
+        next: ask_order_number
+
+      - id: ask_order_number
+        type: collect
+        slot_name: order_no
+        template:
+          text: "请告诉我需要退款的订单号，例如 TR_DEMO_0001。"
+        validation:
+          condition: "slots.get('order_no')"
+          failure_template:
+            text: "订单号不能为空，请重新输入。"
+        next: lookup_order
+
+      - id: lookup_order
+        type: action
+        action: action_lookup_order
+        next:
+          - if: "slots.get('order_found') and slots.get('order_item_count', 0) > 1"
+            then: ask_refund_item
+          - if: "slots.get('order_found')"
+            then: ask_refund_reason
+          - else: show_order_error
+
+      - id: ask_refund_item
+        type: collect
+        slot_name: refund_item_hint
+        template:
+          text: |
+            这个订单包含多个产品：
+            {% for item in slots.order_items %}{{ loop.index }}. {{ item.productName }}
+            {% endfor %}请告诉我要退哪一个。
+        validation:
+          condition: "slots.get('refund_item_hint')"
+          failure_template:
+            text: "请告诉我要退的产品名称。"
+        next: ask_refund_reason
+
+      - id: ask_refund_reason
+        type: collect
+        slot_name: refund_reason
+        template:
+          text: "请简单说一下退款原因。"
+        validation:
+          condition: "slots.get('refund_reason')"
+          failure_template:
+            text: "请补充退款原因。"
+        next: ask_refund_type
+
+      - id: ask_refund_type
+        type: collect
+        slot_name: refund_type
+        template:
+          text: "这次是整单退款还是部分退款？"
+        validation:
+          condition: "slots.get('refund_type')"
+          failure_template:
+            text: "请说明退款类型。"
+        next: create_refund
+
+      - id: create_refund
+        type: action
+        action: action_create_refund
+        next:
+          - if: "slots.get('refund_success')"
+            then: show_refund_result
+          - else: show_refund_failure
+
+      - id: show_refund_result
+        type: response
+        template:
+          mode: rephrase
+          text: "{{ slots.refund_result }}本次退款类型：{{ slots.refund_type }}。"
+          prompt: |
+            请结合对话历史和用户当前消息，对下面的退款结果做自然改写。
+            要求：订单号、金额、申请单号、状态必须与基础回复完全一致；不要新增信息；只输出改写后的回复。
+
+            对话历史：{{ history }}
+            用户当前消息：{{ user_message }}
+            基础回复：{{ current_response }}
+        next: end
+
+      - id: show_refund_failure
+        type: response
+        template:
+          text: "{{ slots.refund_result }}"
+        next: end
+
+      - id: show_order_error
+        type: response
+        template:
+          text: "{{ slots.order_summary }}"
+        next: end
+
+      - id: end
+        type: end
+        next: []
+
+  human_handoff:
+    name: 人工客服
+    description: 将当前对话转交给人工客服处理，创建转人工单并进入人工模式。
+    steps:
+      - id: start
+        type: start
+        next: request_handoff
+
+      - id: request_handoff
+        type: action
+        action: action_request_human_handoff
+        next:
+          - if: "slots.get('handoff_success')"
+            then: respond
+          - else: respond_failure
+
+      - id: respond
+        type: response
+        template:
+          text: "{{ slots.handoff_message }}"
+        next: end
+
+      - id: respond_failure
+        type: response
+        template:
+          text: "{{ slots.handoff_message }}"
+        next: end
+
+      - id: end
+        type: end
+        next: []
